@@ -1,5 +1,7 @@
 package com.example.androidexc2.model;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,12 +26,31 @@ public class Model {
         data.add(st);
     }
 
-    public void updateStudent(Student st, String id) {
-        int pos = data.indexOf(id);
-        data.set(pos, st);
+    public void updateStudent(Student sGet, Student sExist) {
+        for(int pos = 0; pos < data.size(); pos++){
+            Student s = data.get(pos);
+            if(checkEqual(sExist,s)){
+                Log.d("Test", "Check: " + pos );
+                data.set(pos, sGet);
+                break;
+            }
+        }
     }
 
     public void removeStudent(Student st){
-        data.remove(st);
+        for(Student s : data){
+            if(checkEqual(st, s)){
+                data.remove(s);
+                break;
+            }
+        }
+    }
+
+    public boolean checkEqual(Student sGet, Student sExist){
+        return sGet.name.equals(sExist.name) &&
+                sGet.id.equals(sExist.id) &&
+                sGet.phone.equals(sExist.phone) &&
+                sGet.address.equals(sExist.address) &&
+                sGet.cb.booleanValue() == sExist.cb.booleanValue();
     }
 }

@@ -2,6 +2,7 @@ package com.example.androidexc2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,14 +45,14 @@ public class StudentEdit extends AppCompatActivity {
                              "", phone.getText().toString(),
                                      address.getText().toString(),
                                      cb.isChecked());
-            m.updateStudent(st,s.id);
+            m.updateStudent(st,s);
             Intent intent = new Intent(StudentEdit.this,StudentRecyclerList.class);
             startActivity(intent);
         });
 
         deleteBtn.setOnClickListener(view -> {
             m.removeStudent(s);
-            Intent intent = new Intent(StudentEdit.this,StudentRecyclerList.class);
+            Intent intent = new Intent(StudentEdit.this, StudentRecyclerList.class);
             startActivity(intent);
         });
 
