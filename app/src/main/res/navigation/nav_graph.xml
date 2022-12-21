@@ -3,26 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/StudentList">
 
-    <activity
-        android:id="@+id/FirstFragment"
+    <fragment
+        android:id="@+id/StudentList"
         android:name="com.example.androidexc2.StudentRecyclerList"
-        android:label="@string/first_fragment_label"
+        android:label="@string/student_list"
         tools:layout="@layout/activity_student_recycler_list">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </activity>
-    <activity
-        android:id="@+id/SecondFragment"
+            android:id="@+id/action_StudentList_to_AddStudent"
+            app:destination="@id/AddStudent" />
+        <action
+            android:id="@+id/action_StudentList_to_StudentShow"
+            app:destination="@id/StudentShow" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddStudent"
         android:name="com.example.androidexc2.AddStudentActivity"
-        android:label="@string/second_fragment_label"
+        android:label="@string/student_add"
         tools:layout="@layout/activity_add_student">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </activity>
+            android:id="@+id/action_AddStudent_to_StudentList"
+            app:destination="@id/StudentList" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/StudentShow"
+        android:name="com.example.androidexc2.StudentShow"
+        android:label="@string/student_show"
+        tools:layout="@layout/activity_show_student">
+
+        <action
+            android:id="@+id/action_StudentShow_to_StudentList"
+            app:destination="@id/StudentList" />
+        <action
+            android:id="@+id/action_StudentShow_to_StudentEdit"
+            app:destination="@id/StudentEdit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/StudentEdit"
+        android:name="com.example.androidexc2.StudentEdit"
+        android:label="@string/student_edit"
+        tools:layout="@layout/activity_edit_student">
+
+        <action
+            android:id="@+id/action_StudentEdit_to_StudentList"
+            app:destination="@id/StudentList" />
+    </fragment>
 </navigation>

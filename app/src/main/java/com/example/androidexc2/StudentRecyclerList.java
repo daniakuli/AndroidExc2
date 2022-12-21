@@ -1,60 +1,64 @@
 package com.example.androidexc2;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavHost;
-import androidx.navigation.NavHostController;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidexc2.databinding.ActivityStudentRecyclerListBinding;
 import com.example.androidexc2.model.Model;
 import com.example.androidexc2.model.Student;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class StudentRecyclerList extends AppCompatActivity {
+public class StudentRecyclerList extends Fragment {
     List<Student> data;
+    private ActivityStudentRecyclerListBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_recycler_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        binding = ActivityStudentRecyclerListBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         data = Model.instance().getAllStudents();
-        RecyclerView list = findViewById(R.id.studentrecycler_list);
+        RecyclerView list = view.findViewById(R.id.studentrecycler_list);
         list.setHasFixedSize(true);
 
-        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setLayoutManager(new LinearLayoutManager(view.getContext()));
         StudentRecyclerAdapter adapter = new StudentRecyclerAdapter();
         list.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
-                Intent intent = new Intent(StudentRecyclerList.this,StudentShow.class);
-                intent.putExtra("Student", data.get(pos));
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Student", data.get(pos));
+                NavHostFragment.findNavController(StudentRecyclerList.this)
+                        .navigate(R.id.action_StudentList_to_StudentShow, bundle);
+
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudentRecyclerList.this,AddStudentActivity.class);
-                startActivity(intent);
+                NavHostFragment.findNavController(StudentRecyclerList.this)
+                        .navigate(R.id.action_StudentList_to_AddStudent);
             }
         });
     }
@@ -118,5 +122,11 @@ public class StudentRecyclerList extends AppCompatActivity {
         public int getItemCount() {
             return data.size();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
