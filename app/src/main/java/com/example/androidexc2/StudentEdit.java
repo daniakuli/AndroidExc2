@@ -73,10 +73,8 @@ public class StudentEdit extends Fragment {
 
         deleteBtn.setOnClickListener(view1 -> {
             m.removeStudent(s);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Student", s);
             NavHostFragment.findNavController(StudentEdit.this)
-                    .navigate(R.id.action_StudentEdit_to_StudentList, bundle);
+                    .navigate(R.id.action_StudentEdit_to_StudentList);
         });
 
         cancelBtn.setOnClickListener(view1 -> getActivity().onBackPressed());
